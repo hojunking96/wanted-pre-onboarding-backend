@@ -1,4 +1,4 @@
-package api.global.security;
+package api.wantedpreonboardingbackend.global.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
