@@ -2,7 +2,7 @@ package api.wantedpreonboardingbackend.domain.member.controller;
 
 import api.wantedpreonboardingbackend.domain.member.entity.Member;
 import api.wantedpreonboardingbackend.domain.member.service.MemberService;
-import api.wantedpreonboardingbackend.domain.member.dto.JoinRequest;
+import api.wantedpreonboardingbackend.domain.member.dto.request.JoinRequest;
 import api.wantedpreonboardingbackend.global.base.ResponseForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +20,6 @@ public class MemberController {
     @PostMapping("/")
     public ResponseEntity<ResponseForm<Member>> join(@Valid @RequestBody JoinRequest joinRequest) {
         Member member = memberService.join(joinRequest.getEmail(), joinRequest.getPassword());
-        return ResponseEntity.ok(ResponseForm.of("", "", member));
+        return ResponseEntity.ok(ResponseForm.of("S-001", "회원 가입 성공", member));
     }
 }
