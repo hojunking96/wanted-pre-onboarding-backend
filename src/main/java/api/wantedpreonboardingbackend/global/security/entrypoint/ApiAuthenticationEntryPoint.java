@@ -2,7 +2,6 @@ package api.wantedpreonboardingbackend.global.security.entrypoint;
 
 import api.wantedpreonboardingbackend.global.base.ResponseForm;
 import api.wantedpreonboardingbackend.global.util.CustomUtility;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
@@ -17,8 +16,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Component
 public class ApiAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        ResponseForm responseForm = ResponseForm.of("F-AccessDenied", "인증실패", null);
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
+        ResponseForm<Object> responseForm = ResponseForm.of("F-AccessDenied", "인증실패", null);
 
         response.setCharacterEncoding("UTF-8");
         response.setContentType(APPLICATION_JSON_VALUE);

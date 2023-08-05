@@ -1,8 +1,6 @@
 package api.wantedpreonboardingbackend.global.jwt;
 
 import api.wantedpreonboardingbackend.global.util.CustomUtility;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -32,7 +30,6 @@ public class JwtProvider {
         if (cachedSecretKey == null) {
             cachedSecretKey = createSecretKey();
         }
-        log.info("getSecretKey 메소드 실행, cachedSecretKey = " + cachedSecretKey);
         return cachedSecretKey;
     }
 
@@ -40,12 +37,11 @@ public class JwtProvider {
         long now = new Date().getTime();
         Date accessTokenExpiresIn = new Date(now + 1000L * seconds);
 
-        String jwtToken = Jwts.builder()
+        return Jwts.builder()
                 .claim("body", CustomUtility.json.toStr(claims))
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(getSecretKey(), SignatureAlgorithm.HS512)
                 .compact();
-        return jwtToken;
     }
 
     public boolean verify(String token) {

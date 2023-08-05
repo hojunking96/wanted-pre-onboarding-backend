@@ -14,7 +14,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,7 +35,6 @@ public class ArticleController {
     @PostMapping(value = "")
     @Operation(summary = "게시글 생성", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseForm<CreateResponse> create(@AuthenticationPrincipal User user, @Valid @RequestBody CreateRequest createRequest) {
-        log.info("" + SecurityContextHolder.getContext().getAuthentication());
         if (user == null) {
             return ResponseForm.of("F-101", "인증되지 않은 사용자");
         }

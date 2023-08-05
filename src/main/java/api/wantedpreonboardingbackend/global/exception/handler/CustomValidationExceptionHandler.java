@@ -25,8 +25,7 @@ public class CustomValidationExceptionHandler {
         BindingResult bindingResult = exception.getBindingResult();
         List<ObjectError> errors = bindingResult.getAllErrors();
         for (ObjectError error : errors) {
-            if (error instanceof FieldError) {
-                FieldError fieldError = (FieldError) error;
+            if (error instanceof FieldError fieldError) {
                 String fieldName = fieldError.getField();
                 String errorMessage = fieldError.getDefaultMessage();
 
