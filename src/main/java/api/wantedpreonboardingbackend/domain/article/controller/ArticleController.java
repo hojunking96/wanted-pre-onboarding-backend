@@ -32,7 +32,7 @@ public class ArticleController {
     private final ArticleService articleService;
     private final MemberService memberService;
 
-    @PostMapping(value = "")
+    @PostMapping(value = "/")
     @Operation(summary = "게시글 생성", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseForm<CreateResponse> create(@AuthenticationPrincipal User user, @Valid @RequestBody CreateRequest createRequest) {
         if (user == null) {

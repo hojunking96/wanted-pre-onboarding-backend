@@ -1,27 +1,24 @@
 package api.wantedpreonboardingbackend.domain.article.entity;
 
 import api.wantedpreonboardingbackend.domain.member.entity.Member;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class Article {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member author;
     @NotEmpty(message = "제목을 입력하세요")
     private String title;
