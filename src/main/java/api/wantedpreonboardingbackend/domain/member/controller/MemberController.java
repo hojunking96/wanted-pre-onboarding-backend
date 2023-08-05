@@ -7,6 +7,8 @@ import api.wantedpreonboardingbackend.domain.member.entity.Member;
 import api.wantedpreonboardingbackend.domain.member.service.MemberService;
 import api.wantedpreonboardingbackend.domain.member.dto.request.JoinRequest;
 import api.wantedpreonboardingbackend.global.base.ResponseForm;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +18,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/member", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
+@Tag(name = "ApiMemberController", description = "회원가입, 로그인")
 public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/")
+    @Operation(summary = "회원 가입")
     public ResponseForm<JoinResponse> join(@Valid @RequestBody JoinRequest joinRequest) {
         Member member = memberService.join(joinRequest.getEmail(), joinRequest.getPassword());
         if (member == null) {
@@ -29,6 +33,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "로그인, 토큰 발급")
     public ResponseForm<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         Member member = memberService.findByEmail(loginRequest.getEmail());
         if (member == null) {
