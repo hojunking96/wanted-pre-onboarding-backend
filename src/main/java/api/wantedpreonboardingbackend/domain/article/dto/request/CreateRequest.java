@@ -1,4 +1,4 @@
-package api.wantedpreonboardingbackend.domain.article.dto;
+package api.wantedpreonboardingbackend.domain.article.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
