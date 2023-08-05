@@ -1,4 +1,4 @@
-//package api.domain.article.controller;
-//
-//public class ArticleController {
-//}
+package api.wantedpreonboardingbackend.domain.article.controller;
+
+public class ArticleController {
+}
