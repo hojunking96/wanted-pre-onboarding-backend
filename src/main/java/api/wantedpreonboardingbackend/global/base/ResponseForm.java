@@ -2,8 +2,12 @@ package api.wantedpreonboardingbackend.global.base;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
+@Setter
+@ToString
 @AllArgsConstructor
 public class ResponseForm<T> {
     private String resultCode;

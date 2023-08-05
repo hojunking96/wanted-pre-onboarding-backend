@@ -28,7 +28,7 @@ public class SecurityConfig {
                         .authenticationEntryPoint(authenticationEntryPoint)
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(new AntPathRequestMatcher("/api/member/login")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/member/**")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .cors(
