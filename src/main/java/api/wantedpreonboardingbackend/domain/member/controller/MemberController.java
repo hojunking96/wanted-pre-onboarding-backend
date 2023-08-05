@@ -24,7 +24,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class MemberController {
     private final MemberService memberService;
 
-    @PostMapping("/")
+    @PostMapping("")
     @Operation(summary = "회원 가입")
     public ResponseForm<JoinResponse> join(@Valid @RequestBody JoinRequest joinRequest) {
         Member member = memberService.join(joinRequest.getEmail(), joinRequest.getPassword());

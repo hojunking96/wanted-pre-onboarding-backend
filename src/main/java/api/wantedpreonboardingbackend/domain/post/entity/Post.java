@@ -18,7 +18,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Member author;
     @NotEmpty(message = "제목을 입력하세요")
     private String title;
