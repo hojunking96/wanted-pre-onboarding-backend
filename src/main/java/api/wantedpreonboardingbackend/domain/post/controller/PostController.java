@@ -25,8 +25,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/article", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
-@Tag(name = "ArticleController", description = "게시글 컨트롤러")
+@RequestMapping(value = "/api/post", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
+@Tag(name = "PostController", description = "게시글 컨트롤러")
 public class PostController {
 
     private final PostService postService;
