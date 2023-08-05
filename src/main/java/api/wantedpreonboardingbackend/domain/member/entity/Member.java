@@ -1,5 +1,6 @@
 package api.wantedpreonboardingbackend.domain.member.entity;
 
+import api.wantedpreonboardingbackend.domain.post.entity.Post;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

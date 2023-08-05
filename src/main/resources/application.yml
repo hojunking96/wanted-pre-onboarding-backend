@@ -4,7 +4,7 @@ spring:
     include: secret
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     properties:
       hibernate:
         show_sql: true
@@ -18,4 +18,4 @@ logging:
     org.hibernate.orm.jdbc.extract: TRACE
 custom:
   site:
-    baseUrl: http://localhost
+    baseUrl: 'http://localhost'
