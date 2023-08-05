@@ -1,4 +1,7 @@
 package api.wantedpreonboardingbackend.domain.article.repository;
 
-public class ArticleRepository {
+import api.wantedpreonboardingbackend.domain.article.entity.Article;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ArticleRepository extends JpaRepository<Article, Long> {
 }
