@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -31,5 +33,10 @@ public class MemberService {
             return null;
         }
         return jwtProvider.generateToken(member.toClaims(), 60 * 60 * 24 * 365);
+    }
+
+    public Optional<Member> findById(long id) {
+        return memberRepository.findById(id);
+
     }
 }

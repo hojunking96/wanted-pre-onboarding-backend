@@ -4,6 +4,7 @@ import api.wantedpreonboardingbackend.global.util.CustomUtility;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,19 +14,20 @@ import java.util.Date;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class JwtProvider {
     private SecretKey cachedSecretKey;
 
     @Value("${custom.jwt.secretKey}")
-    private String jwtSecretKey;
+    private String secretKeyPlain;
 
     private SecretKey createSecretKey() {
-        String keyBase64Encoded = Base64.getEncoder().encodeToString(jwtSecretKey.getBytes());
+        String keyBase64Encoded = Base64.getEncoder().encodeToString(secretKeyPlain.getBytes());
         return Keys.hmacShaKeyFor(keyBase64Encoded.getBytes());
     }
 
     public SecretKey getSecretKey() {
-        if (cachedSecretKey == null){
+        if (cachedSecretKey == null) {
             cachedSecretKey = createSecretKey();
         }
         return cachedSecretKey;

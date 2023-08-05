@@ -9,9 +9,9 @@ import java.util.Map;
 public class CustomUtility {
     public static class json {
 
-        public static Object toStr(Map<String, Object> map) {
+        public static String toStr(Object object) {
             try {
-                return new ObjectMapper().writeValueAsString(map);
+                return new ObjectMapper().writeValueAsString(object);
             } catch (JsonProcessingException e) {
                 return null;
             }
