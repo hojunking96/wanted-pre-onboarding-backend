@@ -1,9 +1,9 @@
-package api.wantedpreonboardingbackend.domain.article.controller;
+package api.wantedpreonboardingbackend.domain.post.controller;
 
-import api.wantedpreonboardingbackend.domain.article.dto.request.CreateRequest;
-import api.wantedpreonboardingbackend.domain.article.dto.response.CreateResponse;
-import api.wantedpreonboardingbackend.domain.article.entity.Article;
-import api.wantedpreonboardingbackend.domain.article.service.ArticleService;
+import api.wantedpreonboardingbackend.domain.post.dto.request.CreateRequest;
+import api.wantedpreonboardingbackend.domain.post.dto.response.CreateResponse;
+import api.wantedpreonboardingbackend.domain.post.entity.Post;
+import api.wantedpreonboardingbackend.domain.post.service.PostService;
 import api.wantedpreonboardingbackend.domain.member.entity.Member;
 import api.wantedpreonboardingbackend.domain.member.service.MemberService;
 import api.wantedpreonboardingbackend.global.base.ResponseForm;
@@ -27,9 +27,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/article", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
 @Tag(name = "ArticleController", description = "게시글 컨트롤러")
-public class ArticleController {
+public class PostController {
 
-    private final ArticleService articleService;
+    private final PostService postService;
     private final MemberService memberService;
 
     @PostMapping(value = "/")
@@ -39,7 +39,7 @@ public class ArticleController {
             return ResponseForm.of("F-101", "인증되지 않은 사용자");
         }
         Member member = memberService.findByEmail(user.getUsername());
-        Article newArticle = articleService.create(member, createRequest.getTitle(), createRequest.getContent());
-        return ResponseForm.of("S-101", "게시글 생성 성공", CreateResponse.of(newArticle));
+        Post newPost = postService.create(member, createRequest.getTitle(), createRequest.getContent());
+        return ResponseForm.of("S-101", "게시글 생성 성공", CreateResponse.of(newPost));
     }
 }

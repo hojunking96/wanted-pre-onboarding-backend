@@ -1,4 +1,4 @@
-package api.wantedpreonboardingbackend.domain.article.entity;
+package api.wantedpreonboardingbackend.domain.post.entity;
 
 import api.wantedpreonboardingbackend.domain.member.entity.Member;
 import jakarta.persistence.*;
@@ -13,7 +13,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Article {
+public class Post {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -25,8 +25,8 @@ public class Article {
     @NotEmpty(message = "내용을 입력하세요")
     private String content;
 
-    public static Article of(Member author, String title, String content) {
-        return Article.builder()
+    public static Post of(Member author, String title, String content) {
+        return Post.builder()
                 .author(author)
                 .title(title)
                 .content(content)
