@@ -39,4 +39,8 @@ public class PostService {
         post.modify(newTitle, newContent);
         return post;
     }
+
+    public void delete(Long postId) {
+        postRepository.deleteById(postId);
+    }
 }
