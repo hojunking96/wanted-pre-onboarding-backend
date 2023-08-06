@@ -38,9 +38,6 @@ public class PostController {
     @PostMapping(value = "", consumes = APPLICATION_JSON_VALUE)
     @Operation(summary = "게시글 생성", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseForm<CreateResponse> create(@AuthenticationPrincipal User user, @Valid @RequestBody CreateRequest createRequest) {
-        if (user == null) {
-            return ResponseForm.of(CustomErrorCode.F_104);
-        }
         Member member = memberService.findByEmail(user.getUsername());
         Post newPost = postService.create(member, createRequest.getTitle(), createRequest.getContent());
         return ResponseForm.of(CustomSuccessCode.S_201, CreateResponse.of(newPost));
@@ -90,9 +87,6 @@ public class PostController {
     }
 
     private ResponseForm<Post> validate(User user, Long postId) {
-        if (user == null) {
-            return ResponseForm.of(CustomErrorCode.F_104);
-        }
         Member member = memberService.findByEmail(user.getUsername());
         if (member == null) {
             return ResponseForm.of(CustomErrorCode.F_102);
@@ -104,6 +98,6 @@ public class PostController {
         if (!Objects.equals(post.getAuthor().getId(), member.getId())) {
             return ResponseForm.of(CustomErrorCode.F_202);
         }
-        return ResponseForm.of(post);
+        return ResponseForm.of(CustomSuccessCode.S_206, post);
     }
 }

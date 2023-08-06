@@ -2,6 +2,7 @@ package api.wantedpreonboardingbackend.global.exception.handler;
 
 import api.wantedpreonboardingbackend.global.dto.ResponseForm;
 import api.wantedpreonboardingbackend.global.dto.CustomErrorCode;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
@@ -45,5 +46,19 @@ public class CustomValidationExceptionHandler {
     @ResponseBody
     public ResponseForm<String> handleInvalidJsonException() {
         return ResponseForm.of(CustomErrorCode.F_107);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ResponseForm<String> handleConstraintViolationException() {
+        return ResponseForm.of(CustomErrorCode.F_001);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ResponseForm<String> handleIllegalArgumentException() {
+        return ResponseForm.of(CustomErrorCode.F_001);
     }
 }

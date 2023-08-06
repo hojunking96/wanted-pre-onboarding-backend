@@ -23,10 +23,6 @@ public class ResponseForm<T> {
         return of(resultCode, message, null);
     }
 
-    public static <T> ResponseForm<T> of(T data) {
-        return of(null, null, data);
-    }
-
     public static <T> ResponseForm<T> of(CustomErrorCode customErrorCode) {
         return of(customErrorCode.getCode(), customErrorCode.getMessage());
     }

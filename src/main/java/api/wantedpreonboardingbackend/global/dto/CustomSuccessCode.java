@@ -12,7 +12,8 @@ public enum CustomSuccessCode {
     S_202("S-202", "게시글 목록 조회 성공"),
     S_203("S-203", "게시글 조회 성공"),
     S_204("S-204", "게시글 수정 성공"),
-    S_205("S-205", "게시글 삭제 성공");
+    S_205("S-205", "게시글 삭제 성공"),
+    S_206("S-206", "게시글 변경 자격 인증 성공");
 
     private final String code;
     private final String message;
