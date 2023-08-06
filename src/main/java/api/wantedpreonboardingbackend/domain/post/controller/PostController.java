@@ -2,6 +2,7 @@ package api.wantedpreonboardingbackend.domain.post.controller;
 
 import api.wantedpreonboardingbackend.domain.post.dto.request.CreateRequest;
 import api.wantedpreonboardingbackend.domain.post.dto.response.CreateResponse;
+import api.wantedpreonboardingbackend.domain.post.dto.response.GetPostResponse;
 import api.wantedpreonboardingbackend.domain.post.dto.response.GetPostsResponse;
 import api.wantedpreonboardingbackend.domain.post.entity.Post;
 import api.wantedpreonboardingbackend.domain.post.service.PostService;
@@ -49,5 +50,15 @@ public class PostController {
                                                    @RequestParam(defaultValue = "10") int pageSize) {
         List<Post> posts = postService.getPosts(pageNumber, pageSize);
         return ResponseForm.of("S-102", "게시글 목록 조회 성공", GetPostsResponse.of(posts));
+    }
+
+    @GetMapping(value = "/{postId}")
+    @Operation(summary = "게시글 ID로 게시글 조회")
+    public ResponseForm<GetPostResponse> getPost(@PathVariable Long postId) {
+        Post post = postService.getPost(postId);
+        if (post == null) {
+            return ResponseForm.of("F-102", "존재하지 않는 게시물");
+        }
+        return ResponseForm.of("S-103", "게시물 조회 성공", GetPostResponse.of(post));
     }
 }

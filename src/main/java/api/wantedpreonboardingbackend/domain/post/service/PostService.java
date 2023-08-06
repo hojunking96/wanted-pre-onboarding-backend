@@ -25,4 +25,8 @@ public class PostService {
         Page<Post> page = postRepository.findAllByOrderByIdDesc(pageable);
         return page.getContent();
     }
+
+    public Post getPost(Long postId) {
+        return postRepository.findById(postId).orElse(null);
+    }
 }

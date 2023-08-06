@@ -30,7 +30,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(new AntPathRequestMatcher("/api/member/**")).permitAll()
-                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/posts")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/posts/**")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .cors(
