@@ -23,8 +23,8 @@ public class ResponseForm<T> {
         return of(resultCode, message, null);
     }
 
-    public static <T> ResponseForm<T> of(CustomErrorCode customErrorCode) {
-        return of(customErrorCode.getCode(), customErrorCode.getMessage());
+    public static <T> ResponseForm<T> of(CustomFailureCode customFailureCode) {
+        return of(customFailureCode.getCode(), customFailureCode.getMessage());
     }
 
     public static <T> ResponseForm<T> of(CustomSuccessCode customSuccessCode, T data) {
@@ -35,4 +35,10 @@ public class ResponseForm<T> {
     public boolean isFail() {
         return resultCode.startsWith("F-");
     }
+
+    @JsonIgnore
+    public boolean isSuccess() {
+        return resultCode.startsWith("S-");
+    }
+
 }

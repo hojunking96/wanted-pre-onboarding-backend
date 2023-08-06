@@ -3,7 +3,7 @@ package api.wantedpreonboardingbackend.global.dto;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public enum CustomErrorCode {
+public enum CustomFailureCode {
     F_001("F-001", "JSON 형식 오류"),
     F_002("F-002", "회원 인증 실패"),
     F_101("F-101", "이미 가입된 이메일"),
