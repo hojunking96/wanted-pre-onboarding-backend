@@ -1,4 +1,4 @@
-package api.wantedpreonboardingbackend.global.base;
+package api.wantedpreonboardingbackend.global.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,5 +20,13 @@ public class ResponseForm<T> {
 
     public static <T> ResponseForm<T> of(String resultCode, String message) {
         return of(resultCode, message, null);
+    }
+
+    public static <T> ResponseForm<T> of(CustomErrorCode customErrorCode) {
+        return of(customErrorCode.getCode(), customErrorCode.getMessage());
+    }
+
+    public static <T> ResponseForm<T> of(CustomSuccessCode customSuccessCode, T data) {
+        return of(customSuccessCode.getCode(), customSuccessCode.getMessage(), data);
     }
 }

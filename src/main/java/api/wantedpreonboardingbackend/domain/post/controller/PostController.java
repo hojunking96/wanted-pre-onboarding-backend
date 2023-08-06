@@ -7,7 +7,9 @@ import api.wantedpreonboardingbackend.domain.post.entity.Post;
 import api.wantedpreonboardingbackend.domain.post.service.PostService;
 import api.wantedpreonboardingbackend.domain.member.entity.Member;
 import api.wantedpreonboardingbackend.domain.member.service.MemberService;
-import api.wantedpreonboardingbackend.global.base.ResponseForm;
+import api.wantedpreonboardingbackend.global.dto.CustomSuccessCode;
+import api.wantedpreonboardingbackend.global.dto.ResponseForm;
+import api.wantedpreonboardingbackend.global.dto.CustomErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,11 +39,11 @@ public class PostController {
     @Operation(summary = "게시글 생성", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseForm<CreateResponse> create(@AuthenticationPrincipal User user, @Valid @RequestBody CreateRequest createRequest) {
         if (user == null) {
-            return ResponseForm.of("F-101", "인증되지 않은 사용자");
+            return ResponseForm.of(CustomErrorCode.F_104);
         }
         Member member = memberService.findByEmail(user.getUsername());
         Post newPost = postService.create(member, createRequest.getTitle(), createRequest.getContent());
-        return ResponseForm.of("S-101", "게시글 생성 성공", CreateResponse.of(newPost));
+        return ResponseForm.of(CustomSuccessCode.S_201, CreateResponse.of(newPost));
     }
 
     @GetMapping(value = "")
@@ -49,7 +51,7 @@ public class PostController {
     public ResponseForm<GetPostsResponse> getPosts(@RequestParam(defaultValue = "0") int pageNumber,
                                                    @RequestParam(defaultValue = "10") int pageSize) {
         List<Post> posts = postService.getPosts(pageNumber, pageSize);
-        return ResponseForm.of("S-102", "게시글 목록 조회 성공", GetPostsResponse.of(posts));
+        return ResponseForm.of(CustomSuccessCode.S_202, GetPostsResponse.of(posts));
     }
 
     @GetMapping(value = "/{postId}")
@@ -57,9 +59,9 @@ public class PostController {
     public ResponseForm<GetPostResponse> getPost(@PathVariable Long postId) {
         Post post = postService.getPost(postId);
         if (post == null) {
-            return ResponseForm.of("F-102", "존재하지 않는 게시물");
+            return ResponseForm.of(CustomErrorCode.F_201);
         }
-        return ResponseForm.of("S-103", "게시물 조회 성공", GetPostResponse.of(post));
+        return ResponseForm.of(CustomSuccessCode.S_203, GetPostResponse.of(post));
     }
 
     @PatchMapping(value = "/{postId}", consumes = APPLICATION_JSON_VALUE)
@@ -67,36 +69,42 @@ public class PostController {
     public ResponseForm<ModifyResponse> modify(@AuthenticationPrincipal User user,
                                                @Valid @RequestBody ModifyRequest modifyRequest,
                                                @PathVariable Long postId) {
+        if (user == null) {
+            return ResponseForm.of(CustomErrorCode.F_104);
+        }
         Member member = memberService.findByEmail(user.getUsername());
         if (member == null) {
-            return ResponseForm.of("F-001", "존재하지 않는 회원");
+            return ResponseForm.of(CustomErrorCode.F_102);
         }
         Post post = postService.getPost(postId);
         if (post == null) {
-            return ResponseForm.of("F-102", "존재하지 않는 게시물");
+            return ResponseForm.of(CustomErrorCode.F_201);
         }
         if (!Objects.equals(post.getAuthor().getId(), member.getId())) {
-            return ResponseForm.of("F-103", "게시글 변경 권한 없음");
+            return ResponseForm.of(CustomErrorCode.F_202);
         }
         Post modfiedPost = postService.modify(post, modifyRequest.getTitle(), modifyRequest.getContent());
-        return ResponseForm.of("S-104", "수정 성공", ModifyResponse.of(modfiedPost));
+        return ResponseForm.of(CustomSuccessCode.S_204, ModifyResponse.of(modfiedPost));
     }
 
     @DeleteMapping(value = "/{postId}")
     @Operation(summary = "게시글 삭제", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseForm<DeleteResponse> delete(@AuthenticationPrincipal User user, @PathVariable Long postId) {
+        if (user == null) {
+            return ResponseForm.of(CustomErrorCode.F_104);
+        }
         Member member = memberService.findByEmail(user.getUsername());
         if (member == null) {
-            return ResponseForm.of("F-001", "존재하지 않는 회원");
+            return ResponseForm.of(CustomErrorCode.F_102);
         }
         Post post = postService.getPost(postId);
         if (post == null) {
-            return ResponseForm.of("F-102", "존재하지 않는 게시물");
+            return ResponseForm.of(CustomErrorCode.F_201);
         }
         if (!Objects.equals(post.getAuthor().getId(), member.getId())) {
-            return ResponseForm.of("F-103", "게시글 변경 권한 없음");
+            return ResponseForm.of(CustomErrorCode.F_202);
         }
         postService.delete(postId);
-        return ResponseForm.of("S-105", "삭제 성공", DeleteResponse.of(postId));
+        return ResponseForm.of(CustomSuccessCode.S_205, DeleteResponse.of(postId));
     }
 }
