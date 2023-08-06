@@ -9,7 +9,7 @@ import api.wantedpreonboardingbackend.domain.member.entity.Member;
 import api.wantedpreonboardingbackend.domain.member.service.MemberService;
 import api.wantedpreonboardingbackend.global.dto.CustomSuccessCode;
 import api.wantedpreonboardingbackend.global.dto.ResponseForm;
-import api.wantedpreonboardingbackend.global.dto.CustomErrorCode;
+import api.wantedpreonboardingbackend.global.dto.CustomFailureCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -56,7 +56,7 @@ public class PostController {
     public ResponseForm<GetPostResponse> getPost(@PathVariable Long postId) {
         Post post = postService.getPost(postId);
         if (post == null) {
-            return ResponseForm.of(CustomErrorCode.F_201);
+            return ResponseForm.of(CustomFailureCode.F_201);
         }
         return ResponseForm.of(CustomSuccessCode.S_203, GetPostResponse.of(post));
     }
@@ -89,14 +89,14 @@ public class PostController {
     private ResponseForm<Post> validate(User user, Long postId) {
         Member member = memberService.findByEmail(user.getUsername());
         if (member == null) {
-            return ResponseForm.of(CustomErrorCode.F_102);
+            return ResponseForm.of(CustomFailureCode.F_102);
         }
         Post post = postService.getPost(postId);
         if (post == null) {
-            return ResponseForm.of(CustomErrorCode.F_201);
+            return ResponseForm.of(CustomFailureCode.F_201);
         }
         if (!Objects.equals(post.getAuthor().getId(), member.getId())) {
-            return ResponseForm.of(CustomErrorCode.F_202);
+            return ResponseForm.of(CustomFailureCode.F_202);
         }
         return ResponseForm.of(CustomSuccessCode.S_206, post);
     }

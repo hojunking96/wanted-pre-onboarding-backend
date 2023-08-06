@@ -1,6 +1,6 @@
 package api.wantedpreonboardingbackend.global.security.entrypoint;
 
-import api.wantedpreonboardingbackend.global.dto.CustomErrorCode;
+import api.wantedpreonboardingbackend.global.dto.CustomFailureCode;
 import api.wantedpreonboardingbackend.global.dto.ResponseForm;
 import api.wantedpreonboardingbackend.global.util.CustomUtility;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +22,6 @@ public class ApiAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setCharacterEncoding("UTF-8");
         response.setContentType(APPLICATION_JSON_VALUE);
         response.setStatus(403);
-        response.getWriter().append(CustomUtility.json.toStr(ResponseForm.of(CustomErrorCode.F_002)));
+        response.getWriter().append(CustomUtility.json.toStr(ResponseForm.of(CustomFailureCode.F_002)));
     }
 }

@@ -1,7 +1,7 @@
 package api.wantedpreonboardingbackend.global.exception.handler;
 
 import api.wantedpreonboardingbackend.global.dto.ResponseForm;
-import api.wantedpreonboardingbackend.global.dto.CustomErrorCode;
+import api.wantedpreonboardingbackend.global.dto.CustomFailureCode;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -30,35 +30,35 @@ public class CustomValidationExceptionHandler {
                 String fieldName = fieldError.getField();
 
                 if (fieldName.equals("email")) {
-                    return ResponseForm.of(CustomErrorCode.F_105);
+                    return ResponseForm.of(CustomFailureCode.F_105);
                 } else if (fieldName.equals("password")) {
-                    return ResponseForm.of(CustomErrorCode.F_106);
+                    return ResponseForm.of(CustomFailureCode.F_106);
                 } else {
-                    return ResponseForm.of(CustomErrorCode.F_107);
+                    return ResponseForm.of(CustomFailureCode.F_107);
                 }
             }
         }
-        return ResponseForm.of(CustomErrorCode.F_107);
+        return ResponseForm.of(CustomFailureCode.F_107);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ResponseForm<String> handleInvalidJsonException() {
-        return ResponseForm.of(CustomErrorCode.F_107);
+        return ResponseForm.of(CustomFailureCode.F_107);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ResponseForm<String> handleConstraintViolationException() {
-        return ResponseForm.of(CustomErrorCode.F_001);
+        return ResponseForm.of(CustomFailureCode.F_001);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ResponseForm<String> handleIllegalArgumentException() {
-        return ResponseForm.of(CustomErrorCode.F_001);
+        return ResponseForm.of(CustomFailureCode.F_001);
     }
 }

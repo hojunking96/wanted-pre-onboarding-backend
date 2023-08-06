@@ -2,7 +2,7 @@ package api.wantedpreonboardingbackend.global.security.filter;
 
 import api.wantedpreonboardingbackend.domain.member.entity.Member;
 import api.wantedpreonboardingbackend.domain.member.service.MemberService;
-import api.wantedpreonboardingbackend.global.dto.CustomErrorCode;
+import api.wantedpreonboardingbackend.global.dto.CustomFailureCode;
 import api.wantedpreonboardingbackend.global.dto.ResponseForm;
 import api.wantedpreonboardingbackend.global.jwt.JwtProvider;
 import api.wantedpreonboardingbackend.global.util.CustomUtility;
@@ -43,7 +43,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                     response.setStatus(HttpStatus.BAD_REQUEST.value());
                     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                     response.setCharacterEncoding("UTF-8");
-                    response.getWriter().write(Objects.requireNonNull(CustomUtility.json.toStr(ResponseForm.of(CustomErrorCode.F_002))));
+                    response.getWriter().write(Objects.requireNonNull(CustomUtility.json.toStr(ResponseForm.of(CustomFailureCode.F_002))));
                     return;
                 }
                 forceAuthentication(member);
