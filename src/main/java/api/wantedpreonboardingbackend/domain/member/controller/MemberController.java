@@ -39,7 +39,7 @@ public class MemberController {
     public ResponseForm<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         Member member = memberService.findByEmail(loginRequest.getEmail());
         if (member == null) {
-            return ResponseForm.of("F-001", "등록되지 않은 회원");
+            return ResponseForm.of("F-001", "존재하지 않는 회원");
         }
         String jwtToken = memberService.generateJwtToken(member, loginRequest.getPassword());
         if (jwtToken == null) {
