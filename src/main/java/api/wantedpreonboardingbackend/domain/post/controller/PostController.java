@@ -41,6 +41,9 @@ public class PostController {
     @Operation(summary = "게시글 생성", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<ResponseForm<CreateResponse>> create(@AuthenticationPrincipal User user, @Valid @RequestBody CreateRequest createRequest) {
         Member member = memberService.findByEmail(user.getUsername());
+        if (member == null) {
+            return CustomUtility.sp.responseEntityOf(ResponseForm.of(CustomFailureCode.F_102));
+        }
         Post newPost = postService.create(member, createRequest.getTitle(), createRequest.getContent());
         return CustomUtility.sp.responseEntityOf(ResponseForm.of(CustomSuccessCode.S_201, CreateResponse.of(newPost)));
     }
