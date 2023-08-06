@@ -1,5 +1,6 @@
-package api.wantedpreonboardingbackend.global.base;
+package api.wantedpreonboardingbackend.global.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,5 +21,18 @@ public class ResponseForm<T> {
 
     public static <T> ResponseForm<T> of(String resultCode, String message) {
         return of(resultCode, message, null);
+    }
+
+    public static <T> ResponseForm<T> of(CustomErrorCode customErrorCode) {
+        return of(customErrorCode.getCode(), customErrorCode.getMessage());
+    }
+
+    public static <T> ResponseForm<T> of(CustomSuccessCode customSuccessCode, T data) {
+        return of(customSuccessCode.getCode(), customSuccessCode.getMessage(), data);
+    }
+
+    @JsonIgnore
+    public boolean isFail() {
+        return resultCode.startsWith("F-");
     }
 }

@@ -6,7 +6,9 @@ import api.wantedpreonboardingbackend.domain.member.dto.response.LoginResponse;
 import api.wantedpreonboardingbackend.domain.member.entity.Member;
 import api.wantedpreonboardingbackend.domain.member.service.MemberService;
 import api.wantedpreonboardingbackend.domain.member.dto.request.JoinRequest;
-import api.wantedpreonboardingbackend.global.base.ResponseForm;
+import api.wantedpreonboardingbackend.global.dto.CustomSuccessCode;
+import api.wantedpreonboardingbackend.global.dto.ResponseForm;
+import api.wantedpreonboardingbackend.global.dto.CustomErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -29,9 +31,9 @@ public class MemberController {
     public ResponseForm<JoinResponse> join(@Valid @RequestBody JoinRequest joinRequest) {
         Member member = memberService.join(joinRequest.getEmail(), joinRequest.getPassword());
         if (member == null) {
-            return ResponseForm.of("F-001", "이미 존재하는 이메일");
+            return ResponseForm.of(CustomErrorCode.F_101);
         }
-        return ResponseForm.of("S-001", "회원 가입 성공", JoinResponse.of(member));
+        return ResponseForm.of(CustomSuccessCode.S_101, JoinResponse.of(member));
     }
 
     @PostMapping("/login")
@@ -39,12 +41,12 @@ public class MemberController {
     public ResponseForm<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         Member member = memberService.findByEmail(loginRequest.getEmail());
         if (member == null) {
-            return ResponseForm.of("F-001", "존재하지 않는 회원");
+            return ResponseForm.of(CustomErrorCode.F_102);
         }
         String jwtToken = memberService.generateJwtToken(member, loginRequest.getPassword());
         if (jwtToken == null) {
-            return ResponseForm.of("F-002", "비밀번호 불일치");
+            return ResponseForm.of(CustomErrorCode.F_103);
         }
-        return ResponseForm.of("S-002", "로그인 성공", LoginResponse.of(jwtToken));
+        return ResponseForm.of(CustomSuccessCode.S_102, LoginResponse.of(jwtToken));
     }
 }
