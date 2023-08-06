@@ -1,12 +1,11 @@
 package api.wantedpreonboardingbackend.global.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-@Getter
 @AllArgsConstructor
 public enum CustomErrorCode {
     F_001("F-001", "JSON 형식 오류"),
+    F_002("F-002", "회원 인증 실패"),
     F_101("F-101", "이미 가입된 이메일"),
     F_102("F-102", "존재하지 않는 회원"),
     F_103("F-103", "비밀번호 오류"),
@@ -19,4 +18,12 @@ public enum CustomErrorCode {
 
     private final String code;
     private final String message;
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }

@@ -1,5 +1,6 @@
 package api.wantedpreonboardingbackend.global.security.entrypoint;
 
+import api.wantedpreonboardingbackend.global.dto.CustomErrorCode;
 import api.wantedpreonboardingbackend.global.dto.ResponseForm;
 import api.wantedpreonboardingbackend.global.util.CustomUtility;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,10 +19,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class ApiAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        ResponseForm responseForm = ResponseForm.of("F-AccessDenied", "인증실패", null);
         response.setCharacterEncoding("UTF-8");
         response.setContentType(APPLICATION_JSON_VALUE);
         response.setStatus(403);
-        response.getWriter().append(CustomUtility.json.toStr(responseForm));
+        response.getWriter().append(CustomUtility.json.toStr(ResponseForm.of(CustomErrorCode.F_002)));
     }
 }

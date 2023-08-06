@@ -69,20 +69,11 @@ public class PostController {
     public ResponseForm<ModifyResponse> modify(@AuthenticationPrincipal User user,
                                                @Valid @RequestBody ModifyRequest modifyRequest,
                                                @PathVariable Long postId) {
-        if (user == null) {
-            return ResponseForm.of(CustomErrorCode.F_104);
+        ResponseForm<Post> validateResult = validate(user, postId);
+        if (validateResult.isFail()) {
+            return ResponseForm.of(validateResult.getResultCode(), validateResult.getMessage());
         }
-        Member member = memberService.findByEmail(user.getUsername());
-        if (member == null) {
-            return ResponseForm.of(CustomErrorCode.F_102);
-        }
-        Post post = postService.getPost(postId);
-        if (post == null) {
-            return ResponseForm.of(CustomErrorCode.F_201);
-        }
-        if (!Objects.equals(post.getAuthor().getId(), member.getId())) {
-            return ResponseForm.of(CustomErrorCode.F_202);
-        }
+        Post post = validateResult.getData();
         Post modfiedPost = postService.modify(post, modifyRequest.getTitle(), modifyRequest.getContent());
         return ResponseForm.of(CustomSuccessCode.S_204, ModifyResponse.of(modfiedPost));
     }
@@ -90,6 +81,15 @@ public class PostController {
     @DeleteMapping(value = "/{postId}")
     @Operation(summary = "게시글 삭제", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseForm<DeleteResponse> delete(@AuthenticationPrincipal User user, @PathVariable Long postId) {
+        ResponseForm<Post> validateResult = validate(user, postId);
+        if (validateResult.isFail()) {
+            return ResponseForm.of(validateResult.getResultCode(), validateResult.getMessage());
+        }
+        postService.delete(postId);
+        return ResponseForm.of(CustomSuccessCode.S_205, DeleteResponse.of(postId));
+    }
+
+    private ResponseForm<Post> validate(User user, Long postId) {
         if (user == null) {
             return ResponseForm.of(CustomErrorCode.F_104);
         }
@@ -104,7 +104,6 @@ public class PostController {
         if (!Objects.equals(post.getAuthor().getId(), member.getId())) {
             return ResponseForm.of(CustomErrorCode.F_202);
         }
-        postService.delete(postId);
-        return ResponseForm.of(CustomSuccessCode.S_205, DeleteResponse.of(postId));
+        return ResponseForm.of(post);
     }
 }
