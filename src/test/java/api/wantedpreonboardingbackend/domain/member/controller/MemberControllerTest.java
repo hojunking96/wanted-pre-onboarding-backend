@@ -2,6 +2,7 @@ package api.wantedpreonboardingbackend.domain.member.controller;
 
 import api.wantedpreonboardingbackend.domain.member.entity.Member;
 import api.wantedpreonboardingbackend.domain.member.repository.MemberRepository;
+import api.wantedpreonboardingbackend.domain.post.controller.PostController;
 import api.wantedpreonboardingbackend.global.dto.CustomFailureCode;
 import api.wantedpreonboardingbackend.global.dto.CustomSuccessCode;
 import org.junit.jupiter.api.DisplayName;
@@ -22,8 +23,8 @@ import java.nio.charset.StandardCharsets;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.handler;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -58,6 +59,8 @@ class MemberControllerTest {
         // Then
         resultActions
                 .andExpect(status().is2xxSuccessful())
+                .andExpect(handler().handlerType(MemberController.class))
+                .andExpect(handler().methodName("join"))
                 .andExpect(jsonPath("$.resultCode").value(CustomSuccessCode.S_101.getCode()))
                 .andExpect(jsonPath("$.message").value(CustomSuccessCode.S_101.getMessage()))
                 .andExpect(jsonPath("$.data.member.id").value(1))
@@ -85,6 +88,8 @@ class MemberControllerTest {
         // Then
         resultActions
                 .andExpect(status().is4xxClientError())
+                .andExpect(handler().handlerType(MemberController.class))
+                .andExpect(handler().methodName("join"))
                 .andExpect(jsonPath("$.resultCode").value(CustomFailureCode.F_105.getCode()))
                 .andExpect(jsonPath("$.message").value(CustomFailureCode.F_105.getMessage()))
         ;
@@ -110,6 +115,8 @@ class MemberControllerTest {
         // Then
         resultActions
                 .andExpect(status().is4xxClientError())
+                .andExpect(handler().handlerType(MemberController.class))
+                .andExpect(handler().methodName("join"))
                 .andExpect(jsonPath("$.resultCode").value(CustomFailureCode.F_106.getCode()))
                 .andExpect(jsonPath("$.message").value(CustomFailureCode.F_106.getMessage()))
         ;
@@ -142,6 +149,8 @@ class MemberControllerTest {
         // Then
         resultActions
                 .andExpect(status().is2xxSuccessful())
+                .andExpect(handler().handlerType(MemberController.class))
+                .andExpect(handler().methodName("login"))
                 .andExpect(jsonPath("$.resultCode").value(CustomSuccessCode.S_102.getCode()))
                 .andExpect(jsonPath("$.message").value(CustomSuccessCode.S_102.getMessage()))
                 .andExpect(jsonPath("$.data.jwtToken").exists())
@@ -175,6 +184,8 @@ class MemberControllerTest {
         // Then
         resultActions
                 .andExpect(status().is4xxClientError())
+                .andExpect(handler().handlerType(MemberController.class))
+                .andExpect(handler().methodName("login"))
                 .andExpect(jsonPath("$.resultCode").value(CustomFailureCode.F_102.getCode()))
                 .andExpect(jsonPath("$.message").value(CustomFailureCode.F_102.getMessage()))
         ;
@@ -207,6 +218,8 @@ class MemberControllerTest {
         // Then
         resultActions
                 .andExpect(status().is4xxClientError())
+                .andExpect(handler().handlerType(MemberController.class))
+                .andExpect(handler().methodName("login"))
                 .andExpect(jsonPath("$.resultCode").value(CustomFailureCode.F_103.getCode()))
                 .andExpect(jsonPath("$.message").value(CustomFailureCode.F_103.getMessage()))
         ;
