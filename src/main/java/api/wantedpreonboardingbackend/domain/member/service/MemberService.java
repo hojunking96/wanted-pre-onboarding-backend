@@ -6,6 +6,7 @@ import api.wantedpreonboardingbackend.global.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
+    @Transactional
     public Member join(String email, String password) {
         Member member = memberRepository.findByEmail(email).orElse(null);
         if (member != null) {
@@ -24,10 +26,12 @@ public class MemberService {
         return memberRepository.save(Member.of(email, passwordEncoder.encode(password)));
     }
 
+    @Transactional(readOnly = true)
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email).orElse(null);
     }
 
+    @Transactional(readOnly = true)
     public String generateJwtToken(Member member, String password) {
         if (!passwordEncoder.matches(password, member.getPassword())) {
             return null;
@@ -35,6 +39,7 @@ public class MemberService {
         return jwtProvider.generateToken(member.toClaims(), 60 * 60 * 24 * 365);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Member> findById(long id) {
         return memberRepository.findById(id);
 

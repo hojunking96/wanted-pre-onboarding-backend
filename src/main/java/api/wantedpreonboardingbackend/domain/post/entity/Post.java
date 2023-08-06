@@ -32,4 +32,9 @@ public class Post {
                 .content(content)
                 .build();
     }
+
+    public void modify(String newTitle, String newContent) {
+        this.title = newTitle;
+        this.content = newContent;
+    }
 }

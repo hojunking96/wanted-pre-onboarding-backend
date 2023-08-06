@@ -1,9 +1,11 @@
 package api.wantedpreonboardingbackend.domain.post.controller;
 
 import api.wantedpreonboardingbackend.domain.post.dto.request.CreateRequest;
+import api.wantedpreonboardingbackend.domain.post.dto.request.ModifyRequest;
 import api.wantedpreonboardingbackend.domain.post.dto.response.CreateResponse;
 import api.wantedpreonboardingbackend.domain.post.dto.response.GetPostResponse;
 import api.wantedpreonboardingbackend.domain.post.dto.response.GetPostsResponse;
+import api.wantedpreonboardingbackend.domain.post.dto.response.ModifyResponse;
 import api.wantedpreonboardingbackend.domain.post.entity.Post;
 import api.wantedpreonboardingbackend.domain.post.service.PostService;
 import api.wantedpreonboardingbackend.domain.member.entity.Member;
@@ -20,6 +22,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -60,5 +63,25 @@ public class PostController {
             return ResponseForm.of("F-102", "존재하지 않는 게시물");
         }
         return ResponseForm.of("S-103", "게시물 조회 성공", GetPostResponse.of(post));
+    }
+
+    @PatchMapping(value = "/{postId}", consumes = APPLICATION_JSON_VALUE)
+    @Operation(summary = "게시글 수정", security = @SecurityRequirement(name = "bearerAuth"))
+    public ResponseForm<ModifyResponse> modify(@AuthenticationPrincipal User user,
+                                               @Valid @RequestBody ModifyRequest modifyRequest,
+                                               @PathVariable Long postId) {
+        Member member = memberService.findByEmail(user.getUsername());
+        if (member == null) {
+            return ResponseForm.of("F-001", "존재하지 않는 회원");
+        }
+        Post post = postService.getPost(postId);
+        if (post == null) {
+            return ResponseForm.of("F-102", "존재하지 않는 게시물");
+        }
+        if (!Objects.equals(post.getAuthor().getId(), member.getId())) {
+            return ResponseForm.of("F-103", "수정 권한 없음");
+        }
+        Post modfiedPost = postService.modify(post, modifyRequest.getTitle(), modifyRequest.getContent());
+        return ResponseForm.of("S-104", "수정 성공", ModifyResponse.of(modfiedPost));
     }
 }
