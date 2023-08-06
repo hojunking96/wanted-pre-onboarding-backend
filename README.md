@@ -49,6 +49,6 @@
 - [x] Member TC 추가
   - [x] MemberController TC 추가
   - [x] MemberService TC 추가
-- [ ] Post TC 추가
-  - [ ] PostController TC 추가
-  - [ ] PostService TC 추가
+- [x] Post TC 추가
+  - [x] PostController TC 추가
+  - [x] PostService TC 추가
