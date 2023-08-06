@@ -2,10 +2,7 @@ package api.wantedpreonboardingbackend.domain.post.controller;
 
 import api.wantedpreonboardingbackend.domain.post.dto.request.CreateRequest;
 import api.wantedpreonboardingbackend.domain.post.dto.request.ModifyRequest;
-import api.wantedpreonboardingbackend.domain.post.dto.response.CreateResponse;
-import api.wantedpreonboardingbackend.domain.post.dto.response.GetPostResponse;
-import api.wantedpreonboardingbackend.domain.post.dto.response.GetPostsResponse;
-import api.wantedpreonboardingbackend.domain.post.dto.response.ModifyResponse;
+import api.wantedpreonboardingbackend.domain.post.dto.response.*;
 import api.wantedpreonboardingbackend.domain.post.entity.Post;
 import api.wantedpreonboardingbackend.domain.post.service.PostService;
 import api.wantedpreonboardingbackend.domain.member.entity.Member;
@@ -79,9 +76,27 @@ public class PostController {
             return ResponseForm.of("F-102", "존재하지 않는 게시물");
         }
         if (!Objects.equals(post.getAuthor().getId(), member.getId())) {
-            return ResponseForm.of("F-103", "수정 권한 없음");
+            return ResponseForm.of("F-103", "게시글 변경 권한 없음");
         }
         Post modfiedPost = postService.modify(post, modifyRequest.getTitle(), modifyRequest.getContent());
         return ResponseForm.of("S-104", "수정 성공", ModifyResponse.of(modfiedPost));
+    }
+
+    @DeleteMapping(value = "/{postId}")
+    @Operation(summary = "게시글 삭제", security = @SecurityRequirement(name = "bearerAuth"))
+    public ResponseForm<DeleteResponse> delete(@AuthenticationPrincipal User user, @PathVariable Long postId) {
+        Member member = memberService.findByEmail(user.getUsername());
+        if (member == null) {
+            return ResponseForm.of("F-001", "존재하지 않는 회원");
+        }
+        Post post = postService.getPost(postId);
+        if (post == null) {
+            return ResponseForm.of("F-102", "존재하지 않는 게시물");
+        }
+        if (!Objects.equals(post.getAuthor().getId(), member.getId())) {
+            return ResponseForm.of("F-103", "게시글 변경 권한 없음");
+        }
+        postService.delete(postId);
+        return ResponseForm.of("S-105", "삭제 성공", DeleteResponse.of(postId));
     }
 }
