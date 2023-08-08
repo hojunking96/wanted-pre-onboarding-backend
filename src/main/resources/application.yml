@@ -17,6 +17,3 @@ logging:
     wantedpreonboardingbackend: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
     org.hibernate.orm.jdbc.extract: TRACE
-custom:
-  site:
-    baseUrl: 'http://localhost'
