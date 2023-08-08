@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: '${custom.dev.db.url}'
+    username: '${custom.dev.db.username}'
+    password: '${custom.dev.db.password}'
+  jpa:
+    hibernate:
+      ddl-auto: create
+custom:
+  site:
+    baseUrl: '${custom.dev.site.url}'
